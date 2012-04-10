@@ -192,11 +192,18 @@ void gl_checkextensions()
 #ifdef EMSCRIPTEN
     // Fake exts, things webgl has that are extensions in gl
     const char *webgl_exts = "GL_ARB_multitexture GL_ARB_vertex_buffer_object GL_EXT_framebuffer_object GL_ARB_shading_language_100 GL_ARB_shader_objects GL_ARB_vertex_shader GL_ARB_fragment_shader GL_ARB_texture_cube_map";
-    // GL_ARB_pixel_buffer_object? GL_ARB_texture_float?
-    char all_exts[strlen(exts) + strlen(webgl_exts) + 3];
+    const char *texture_float = "GL_ARB_texture_float";
+    bool glSupportsTextureFloat = strstr(exts, "OES_texture_float") != 0;
+    // GL_ARB_pixel_buffer_object?
+    char all_exts[strlen(exts) + strlen(webgl_exts) + 3 +
+                  (glSupportsTextureFloat ? (strlen(texture_float) + 1) : 0)];
     strcpy(all_exts, exts);
     all_exts[strlen(exts)] = ' ';
     strcpy(all_exts + strlen(exts) + 1, webgl_exts);
+    if (glSupportsTextureFloat) {
+      all_exts[strlen(exts)] = ' ';
+      strcpy(all_exts + strlen(exts) + 1, texture_float);
+    }
     exts = all_exts;
 #endif
 
