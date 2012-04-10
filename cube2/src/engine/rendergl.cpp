@@ -201,8 +201,8 @@ void gl_checkextensions()
     all_exts[strlen(exts)] = ' ';
     strcpy(all_exts + strlen(exts) + 1, webgl_exts);
     if (glSupportsTextureFloat) {
-      all_exts[strlen(exts)] = ' ';
-      strcpy(all_exts + strlen(exts) + 1, texture_float);
+      all_exts[strlen(all_exts)] = ' ';
+      strcpy(all_exts + strlen(all_exts) + 1, texture_float);
     }
     exts = all_exts;
 #endif
